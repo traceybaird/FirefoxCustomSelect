@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="styles.css" rel="stylesheet" type="text/css" />
+    <title>Custom Select Arrows in Firefox</title>
+</head>
+
+<body>
+    <div class="content">
+        <h1>Resolving custom drop down arrows issue in Firefox</h1>
+
+        <h2>The issue - view this in Firefox to see the problem</h2>
+        <p>
+            Unlike Chrome and IE, Firefox does not remove the default drop down arrows with the <span class="code-snippet">-webkit-appearance:none;</span> css attribute.
+            Instead you end up with your custom selector behind the default arrow as below:
+        </p>
+
+        <select id="Select">
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+            <option value="4">Option 4</option>
+            <option value="5">Option 5</option>
+        </select>
+
+        <h2>Fixed in Firefox:</h2>
+
+        <div class="quantity-options">
+            <select id="SelectA">
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+                <option value="4">Option 4</option>
+                <option value="5">Option 5</option>
+            </select>
+        </div>
+        <p>The only downside is that the areas for the select options remains a bit wider than the select box. In my opinion this is better than looking at the default arrow!</p>
+        <div class="explanation">
+            <h2>Here's how to do it:</h2>
+            <ol>
+                <li>
+                    <p>
+                        <strong>Widen your select input</strong> so that it's the correct width once the default arrow is cropped from the right. The default arrow is approx 17px wide so you'll need to widen your div by that amount.
+                        My original select was 150px wide so use the select ID to specify the width to be 167px in this case:
+                    </p>
+                    <p>
+                        CSS:<br />
+                        <span class="code-snippet highlight">
+                            #SelectB {<br />
+                            &emsp;&emsp;width: 167px;<br />
+                            }
+
+                        </span>
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <strong>Move your custom arrow to the left of the default arrow.</strong><br />
+                        Use the id of your select input (or a class if you can be sure that all of your select inputs with that class are the same) as your CSS selector.
+                        Using the background position attribute move the image towards the left and inside the select box.
+                    </p>
+                    <p>
+                        CSS:<br />
+                        <span class="code-snippet">
+
+                            select {<br />
+                            background:url(form_sprites.png) no-repeat right top; //renders the custom background image<br />
+                            background-size: 40px 400px;<br />
+                            border:1px solid #e7bddb;<br />
+                            height:38px;<br />
+                            width:150px;<br />
+                            -webkit-appearance:none; //hides the default buttons on everything other than firefox!<br />
+                            }<br /><br />
+                            <span class="highlight">
+                                #SelectB {<br />
+                                &emsp;&emsp;background-position: 85% 0%;
+                            </span><br />
+                                &emsp;&emsp;width: 167px;<br />
+                            <span class="highlight">
+                                }
+                            </span>
+                        </span>
+                    </p>
+
+                    <p>
+                        HTML:<br />
+
+                        &lt;select id="SelectB"&gt;<br />
+                        &emsp;&emsp;&lt;option value="1"&gt;Option 1&lt;/option&gt;<br />
+                        &emsp;&emsp;&lt;option value="2"&gt;Option 2&lt;/option&gt;<br />
+                        &emsp;&emsp;&lt;option value="3"&gt;Option 3&lt;/option&gt;<br />
+                        &emsp;&emsp;&lt;option value="4"&gt;Option 4&lt;/option&gt;<br />
+                        &emsp;&emsp;&lt;option value="5"&gt;Option 5&lt;/option&gt;<br />
+                        &lt;/select&gt;
+                    </p>
+
+                    <p>
+                        RENDERED:<br />
+                        <select id="SelectB">
+                            <option value="1">Option 1</option>
+                            <option value="2">Option 2</option>
+                            <option value="3">Option 3</option>
+                            <option value="4">Option 4</option>
+                            <option value="5">Option 5</option>
+                        </select>
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <strong>Hide the default arrow.</strong><br />
+                        Wrap your select input with a div with a new class. Set the width of elements with that class using CSS so that it excludes the default arrow on the right.
+                        The firefox drop down arrow is about 18px wide so you'll need to reduce apply a width to your wrapping class approximately 18px narrower than your select input.
+                        Set the overflow to hidden so that the default arrow is hidden outside of the wrapping div.<br /><br />
+                        CSS:<br />
+                        <span class="code-snippet highlight">
+                            .quantity-options {<br />
+                            &emsp;&emsp;width: 128px;<br />
+                            &emsp;&emsp;overflow: hidden;<br />
+                            }
+                        </span>
+                    </p>
+                    <p>
+                        HTML:<br />
+                        <span class="highlight">&lt;div class="quantity-options"&gt;</span><br />
+                        &emsp;&emsp;&lt;select id="SelectB"&gt;<br />
+                        &emsp;&emsp;&emsp;&emsp;&lt;option value="1"&gt;Option 1&lt;/option&gt;<br />
+                        &emsp;&emsp;&emsp;&emsp;&lt;option value="2"&gt;Option 2&lt;/option&gt;<br />
+                        &emsp;&emsp;&emsp;&emsp;&lt;option value="3"&gt;Option 3&lt;/option&gt;<br />
+                        &emsp;&emsp;&emsp;&emsp;&lt;option value="4"&gt;Option 4&lt;/option&gt;<br />
+                        &emsp;&emsp;&emsp;&emsp;&lt;option value="5"&gt;Option 5&lt;/option&gt;<br />
+                        &emsp;&emsp;&lt;/select&gt;<br />
+                        <span class="highlight">&lt;/div&gt;</span>
+                    </p>
+                    <p>
+                        RENDERED:
+                        <div class="quantity-options">
+                            <select id="SelectC">
+                                <option value="1">Option 1</option>
+                                <option value="2">Option 2</option>
+                                <option value="3">Option 3</option>
+                                <option value="4">Option 4</option>
+                                <option value="5">Option 5</option>
+                            </select>
+                        </div>
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <strong>Wrap the css in a firefox specific prefix.</strong>
+                        <br />
+                        You only want this css fix to apply to firefox because it's not entirely perfect in that the option drop down area when you click on the drop down arrow will be the full original width.
+                        Surround the added css with <span class="code-snippet">@-moz-document url-prefix()</span> to ensure it only applies to firefox.
+                    </p>
+                    <p>
+                        CSS:<br />
+                        <span class="code-snippet">
+                            <span class="highlight">@-moz-document url-prefix() {</span><br />
+                            &emsp;&emsp;.quantity-options {<br />
+                            &emsp;&emsp;&emsp;&emsp;width: 131px;<br />
+                            &emsp;&emsp;&emsp;&emsp; overflow: hidden;<br />
+                            &emsp;&emsp;}<br />
+                            &emsp;&emsp;#SelectB  {<br />
+                            &emsp;&emsp;&emsp;&emsp;   background-position: 85% 0%;<br />
+                            &emsp;&emsp;}<br />
+                            <span class="highlight">}</span>
+                        </span>
+                    </p>
+
+                </li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
